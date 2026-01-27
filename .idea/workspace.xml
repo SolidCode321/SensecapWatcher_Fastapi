@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7e650a9-06ee-41e9-baf6-58ab5d216951" name="Changes" comment="fastapi">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d7e650a9-06ee-41e9-baf6-58ab5d216951" name="Changes" comment="fastapi" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769517557435</updated>
-      <workItem from="1769517558469" duration="1925000" />
+      <workItem from="1769517558469" duration="2264000" />
     </task>
     <task id="LOCAL-00001" summary="fastapi">
       <option name="closed" value="true" />
@@ -95,7 +93,23 @@
       <option name="project" value="LOCAL" />
       <updated>1769518364364</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fastapi">
+      <option name="closed" value="true" />
+      <created>1769519611214</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1769519611214</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fastapi">
+      <option name="closed" value="true" />
+      <created>1769519761498</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769519761498</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
