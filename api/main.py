@@ -12,6 +12,7 @@ async def health_check():
 
 @app.post("/image")
 async def receive_image(request: Request):
+    print("recieving image")
     body = await request.body()
 
     # If Watcher sends raw JPEG
