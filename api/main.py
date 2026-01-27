@@ -30,8 +30,8 @@ async def receive_image(request: Request):
 
     r = requests.post(LLAVA_URL, json=payload)
     return r.json()
-
+'''
 @app.get("/image")
-async def receive_chat(request: Request):
-    return {"status": "ok"}'''
+async def image_check():
+    return {"status": "ok"}
 
