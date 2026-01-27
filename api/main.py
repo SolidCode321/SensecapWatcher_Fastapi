@@ -4,7 +4,7 @@ import requests
 
 app = FastAPI()
 
-LLAVA_URL = "http://localhost:11434/api/chat"
+LLAVA_URL = "http://83.96.121.186/api/chat"
 
 @app.get("/health_check")
 async def health_check():
