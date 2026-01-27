@@ -1,6 +1,4 @@
-from fastapi import FastAPI, Request
-import base64
-import requests
+from fastapi import FastAPI
 
 app = FastAPI()
 
