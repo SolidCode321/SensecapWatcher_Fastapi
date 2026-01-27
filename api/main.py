@@ -10,7 +10,7 @@ LLAVA_URL = "http://83.96.121.186/api/chat"
 async def health_check():
     return {"status": "ok"}
 
-@app.post("/image")
+'''@app.post("/image")
 async def receive_image(request: Request):
     print("recieving image")
     body = await request.body()
@@ -35,5 +35,5 @@ async def receive_image(request: Request):
 
 @app.get("/image")
 async def receive_chat(request: Request):
-    return {"status": "ok"}
+    return {"status": "ok"}'''
 

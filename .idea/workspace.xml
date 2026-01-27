@@ -85,7 +85,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769517557435</updated>
-      <workItem from="1769517558469" duration="2731000" />
+      <workItem from="1769517558469" duration="3666000" />
     </task>
     <task id="LOCAL-00001" summary="fastapi">
       <option name="closed" value="true" />
@@ -119,7 +119,23 @@
       <option name="project" value="LOCAL" />
       <updated>1769519928847</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fastapi">
+      <option name="closed" value="true" />
+      <created>1769520306289</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769520306289</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fastapi">
+      <option name="closed" value="true" />
+      <created>1769520571304</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1769520571304</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
