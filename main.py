@@ -21,7 +21,7 @@ PROMPT = "Do you see a person wearing an orange sweater in this image?"
 def health_check():
     return {"status": "ok"}
 
-@app.post("/image")
+@app.post("/image/v1/notification/event")
 async def receive_image(request: Request):
     try:
         payload_in = await request.json()
