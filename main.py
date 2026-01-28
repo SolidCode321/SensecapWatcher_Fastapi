@@ -1,14 +1,21 @@
 from fastapi import FastAPI, Request, HTTPException
-import base64
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 import requests
+from datetime import datetime
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 LLAVA_URL = "http://83.96.121.186/api/chat"
 
-# Basic Auth credentials
 USERNAME = "Alessa"
 PASSWORD = "Alessa@123"
+
+# ---- In-memory store (simple & effective) ----
+detections = []
+
+PROMPT = "Answer YES or NO only. Do you see a black cat in this image?"
 
 @app.get("/health_check")
 def health_check():
@@ -17,48 +24,67 @@ def health_check():
 @app.post("/image")
 async def receive_image(request: Request):
     try:
-        # Receive raw JPEG
-        body = await request.body()
+        payload_in = await request.json()
 
-        if not body:
-            raise HTTPException(status_code=400, detail="Empty image")
+        events = payload_in.get("events")
+        if not events or "img" not in events:
+            raise HTTPException(status_code=400, detail="Invalid packet")
 
-        # Convert to base64 (NO data:image/... prefix)
-        img_b64 = base64.b64encode(body).decode("utf-8")
+        img_b64 = events["img"]
+        device_eui = payload_in.get("deviceEui", "unknown")
 
-        payload = {
+        llava_payload = {
             "model": "llava",
             "messages": [
                 {
                     "role": "user",
-                    "content": "Do you see a black cat in this image?",
+                    "content": PROMPT,
                     "images": [img_b64]
                 }
             ],
             "stream": False
         }
 
-        headers = {
-            "Content-Type": "application/json"
-        }
-
-        # requests supports basic auth natively
         response = requests.post(
             LLAVA_URL,
-            json=payload,
-            headers=headers,
+            json=llava_payload,
             auth=(USERNAME, PASSWORD),
             timeout=60
         )
-
-        # Raise if LLaVA returns 4xx/5xx
         response.raise_for_status()
+        llava_response = response.json()
 
-        return response.json()
+        ai_text = (
+            llava_response
+            .get("message", {})
+            .get("content", "")
+        )
 
-    except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=502, detail=str(e))
+        # ---- Save result for dashboard ----
+        detections.insert(0, {
+            "time": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+            "device": device_eui,
+            "prompt": PROMPT,
+            "image": img_b64,
+            "response": ai_text
+        })
 
-@app.get("/image")
-def image_check():
-    return {"status": "ok"}
+        # Keep last 50 only
+        detections[:] = detections[:50]
+
+        return {"status": "ok"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ---- Dashboard ----
+@app.get("/", response_class=HTMLResponse)
+def dashboard(request: Request):
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {
+            "request": request,
+            "detections": detections
+        }
+    )

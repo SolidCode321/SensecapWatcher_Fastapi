@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AI Detection Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+    }
+    img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+    .meta {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .prompt {
+      margin-top: 8px;
+      font-style: italic;
+      color: #cbd5f5;
+    }
+    .response {
+      margin-top: 10px;
+      padding: 10px;
+      background: #020617;
+      border-left: 4px solid #22c55e;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧠 AI Detection Dashboard</h1>
+
+{% if detections %}
+  {% for d in detections %}
+    <div class="card">
+      <img src="data:image/jpeg;base64,{{ d.image }}" />
+
+      <div>
+        <div class="meta">
+          📟 Device: {{ d.device }}<br>
+          🕒 Time: {{ d.time }}
+        </div>
+
+        <div class="prompt">
+          ❓ Prompt: {{ d.prompt }}
+        </div>
+
+        <div class="response">
+          🧠 AI Response: {{ d.response }}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No detections yet.</p>
+{% endif %}
+
+</body>
+</html>
