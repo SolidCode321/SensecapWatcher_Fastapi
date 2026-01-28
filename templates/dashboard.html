@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>AI Detection Dashboard</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,13 +13,33 @@
       padding: 20px;
     }
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 60px;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #22c55e;
+      border: none;
+      border-radius: 8px;
+      color: #022c22;
+      font-weight: bold;
+      cursor: pointer;
     }
     .card {
       background: #020617;
       border-radius: 12px;
       padding: 16px;
-      margin-bottom: 20px;
+      margin-top: 20px;
       display: grid;
       grid-template-columns: 220px 1fr;
       gap: 16px;
@@ -46,34 +67,76 @@
     }
   </style>
 </head>
+
 <body>
 
 <h1>🧠 AI Detection Dashboard</h1>
 
-{% if detections %}
-  {% for d in detections %}
-    <div class="card">
-      <img src="data:image/jpeg;base64,{{ d.image }}" />
+<h3>✏️ Current Prompt</h3>
+<textarea id="promptBox"></textarea>
+<br>
+<button onclick="savePrompt()">Save Prompt</button>
 
-      <div>
-        <div class="meta">
-          📟 Device: {{ d.device }}<br>
-          🕒 Time: {{ d.time }}
-        </div>
+<div id="detections"></div>
 
-        <div class="prompt">
-          ❓ Prompt: {{ d.prompt }}
-        </div>
+<script>
+  async function loadPrompt() {
+    const res = await fetch("/api/prompt");
+    const data = await res.json();
+    document.getElementById("promptBox").value = data.prompt;
+  }
 
-        <div class="response">
-          🧠 AI Response: {{ d.response }}
+  async function savePrompt() {
+    const prompt = document.getElementById("promptBox").value;
+
+    await fetch("/api/prompt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+
+    alert("Prompt updated!");
+  }
+
+  async function loadDetections() {
+    const res = await fetch("/api/detections");
+    const data = await res.json();
+
+    const container = document.getElementById("detections");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = "<p>No detections yet.</p>";
+      return;
+    }
+
+    data.forEach(d => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="data:image/jpeg;base64,${d.image}" />
+        <div>
+          <div class="meta">
+            📟 Device: ${d.device}<br>
+            🕒 Time: ${d.time}
+          </div>
+          <div class="prompt">❓ Prompt: ${d.prompt}</div>
+          <div class="response">🧠 AI Response: ${d.response}</div>
         </div>
-      </div>
-    </div>
-  {% endfor %}
-{% else %}
-  <p>No detections yet.</p>
-{% endif %}
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  // Initial load
+  loadPrompt();
+  loadDetections();
+
+  // Auto-refresh detections
+  setInterval(loadDetections, 3000);
+</script>
 
 </body>
 </html>

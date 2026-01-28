@@ -7,6 +7,7 @@
     <list default="true" id="d7e650a9-06ee-41e9-baf6-58ab5d216951" name="Changes" comment="render">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769517557435</updated>
-      <workItem from="1769517558469" duration="12054000" />
+      <workItem from="1769517558469" duration="14455000" />
     </task>
     <task id="LOCAL-00001" summary="fastapi">
       <option name="closed" value="true" />
@@ -241,7 +242,23 @@
       <option name="project" value="LOCAL" />
       <updated>1769579945558</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="render">
+      <option name="closed" value="true" />
+      <created>1769581068781</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1769581068781</updated>
+    </task>
+    <task id="LOCAL-00020" summary="render">
+      <option name="closed" value="true" />
+      <created>1769581317546</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1769581317546</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
