@@ -12,9 +12,16 @@
       margin: 0;
       padding: 20px;
     }
+
     h1 {
       margin-bottom: 10px;
     }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
     textarea {
       width: 100%;
       min-height: 60px;
@@ -25,6 +32,7 @@
       padding: 10px;
       font-size: 14px;
     }
+
     button {
       margin-top: 8px;
       padding: 8px 14px;
@@ -35,6 +43,14 @@
       font-weight: bold;
       cursor: pointer;
     }
+
+    #loading {
+      display: none;
+      margin-top: 10px;
+      color: #38bdf8;
+      font-size: 14px;
+    }
+
     .card {
       background: #020617;
       border-radius: 12px;
@@ -44,20 +60,24 @@
       grid-template-columns: 220px 1fr;
       gap: 16px;
     }
+
     img {
       width: 100%;
       border-radius: 8px;
       border: 1px solid #1e293b;
     }
+
     .meta {
       font-size: 13px;
       color: #94a3b8;
     }
+
     .prompt {
       margin-top: 8px;
       font-style: italic;
       color: #cbd5f5;
     }
+
     .response {
       margin-top: 10px;
       padding: 10px;
@@ -77,7 +97,11 @@
 <br>
 <button onclick="savePrompt()">Save Prompt</button>
 
-<div id="detections"></div>
+<div id="loading">⏳ Updating detections…</div>
+
+<div id="detections">
+  <p>Waiting for detections…</p>
+</div>
 
 <script>
   async function loadPrompt() {
@@ -99,42 +123,52 @@
   }
 
   async function loadDetections() {
-    const res = await fetch("/api/detections");
-    const data = await res.json();
+    const loading = document.getElementById("loading");
+    loading.style.display = "block";
 
-    const container = document.getElementById("detections");
-    container.innerHTML = "";
+    try {
+      const res = await fetch("/api/detections");
+      const data = await res.json();
 
-    if (data.length === 0) {
-      container.innerHTML = "<p>No detections yet.</p>";
-      return;
-    }
+      const container = document.getElementById("detections");
+      container.innerHTML = "";
 
-    data.forEach(d => {
-      const card = document.createElement("div");
-      card.className = "card";
+      if (data.length === 0) {
+        container.innerHTML = "<p>No detections yet.</p>";
+        return;
+      }
 
-      card.innerHTML = `
-        <img src="data:image/jpeg;base64,${d.image}" />
-        <div>
-          <div class="meta">
-            📟 Device: ${d.device}<br>
-            🕒 Time: ${d.time}
+      data.forEach(d => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <img src="data:image/jpeg;base64,${d.image}" />
+          <div>
+            <div class="meta">
+              📟 Device: ${d.device}<br>
+              🕒 Time: ${d.time}
+            </div>
+            <div class="prompt">❓ Prompt: ${d.prompt}</div>
+            <div class="response">🧠 AI Response: ${d.response}</div>
           </div>
-          <div class="prompt">❓ Prompt: ${d.prompt}</div>
-          <div class="response">🧠 AI Response: ${d.response}</div>
-        </div>
-      `;
+        `;
 
-      container.appendChild(card);
-    });
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error("Failed to load detections", err);
+    } finally {
+      loading.style.display = "none";
+    }
   }
 
   // Initial load
   loadPrompt();
   loadDetections();
 
-  // Auto-refresh detections
+  // Auto-refresh every 3 seconds
   setInterval(loadDetections, 3000);
 </script>
 

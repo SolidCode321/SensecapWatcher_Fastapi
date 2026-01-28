@@ -12,16 +12,18 @@ LLAVA_URL = "http://83.96.121.186/api/chat"
 USERNAME = "Alessa"
 PASSWORD = "Alessa@123"
 
-# Prompt is now mutable
+# Prompt is editable from dashboard
 current_prompt = {
     "text": "Answer YES or NO only. Do you see a black cat in this image?"
 }
 
+# In-memory storage (latest first)
 detections = []
 MAX_DETECTIONS = 50
 # ----------------------------------------
 
 
+# ---------- Health ----------
 @app.get("/health_check")
 def health_check():
     return {"status": "ok"}
@@ -45,8 +47,8 @@ async def set_prompt(request: Request):
     return {"status": "ok", "prompt": prompt}
 
 
-# ---------- SenseCAP webhook ----------
-@app.post("/image/v1/notification/event")
+# ---------- SenseCAP Webhook ----------
+@app.post("/image")
 async def receive_image(request: Request):
     try:
         payload = await request.json()
@@ -85,6 +87,7 @@ async def receive_image(request: Request):
             .get("content", "")
         )
 
+        # Save detection (latest first)
         detections.insert(0, {
             "time": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
             "device": device_eui,
@@ -93,6 +96,7 @@ async def receive_image(request: Request):
             "response": ai_text
         })
 
+        # Keep only last N detections
         del detections[MAX_DETECTIONS:]
 
         return {"status": "ok"}
@@ -112,4 +116,7 @@ def get_detections():
 # ---------- Dashboard ----------
 @app.get("/", response_class=HTMLResponse)
 def dashboard(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
+    return templates.TemplateResponse(
+        "dashboard.html",
+        {"request": request}
+    )
