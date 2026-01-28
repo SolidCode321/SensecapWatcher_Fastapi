@@ -46,7 +46,7 @@ async def set_prompt(request: Request):
 
 
 # ---------- SenseCAP webhook ----------
-@app.post("/image")
+@app.post("/image/v1/notification/event")
 async def receive_image(request: Request):
     try:
         payload = await request.json()
