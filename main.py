@@ -15,7 +15,7 @@ PASSWORD = "Alessa@123"
 # ---- In-memory store (simple & effective) ----
 detections = []
 
-PROMPT = "Answer YES or NO only. Do you see a black cat in this image?"
+PROMPT = "Do you see a person wearing an orange sweater in this image?"
 
 @app.get("/health_check")
 def health_check():
