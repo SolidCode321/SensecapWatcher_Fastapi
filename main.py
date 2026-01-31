@@ -8,9 +8,9 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 # ---------------- CONFIG ----------------
-LLAVA_URL = "http://83.96.121.186/api/chat"
-USERNAME = "Alessa"
-PASSWORD = "Alessa@123"
+LLAVA_URL = ""
+USERNAME = ""
+PASSWORD = ""
 
 # Prompt is editable from dashboard
 current_prompt = {
